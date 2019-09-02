@@ -13,7 +13,29 @@ import PanelBriefDataScreen from './Screens/PanelBriefDataScreen/PanelBriefDataS
 import AuthScreen from './Screens/AuthScreen/AuthScreen';
 import PanelDetailDataScreen from './Screens/PanelDetailDataScreen/PanelDetailDataScreen';
 import {createStackNavigator, createAppContainer, createSwitchNavigator, createBottomTabNavigator} from 'react-navigation';
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import { Provider } from 'react-redux';
+import thunk from "redux-thunk";
+import auth from './Redux/reducers/auth';
+import {checkAuth} from './Redux/actions/auth';
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+// const config = {
+//     key: 'primary',
+//     storage
+// }
+
+
+ const rootReducer = combineReducers({
+    auth: auth
+});
+ 
+const store = createStore(rootReducer, composeEnhancers(
+    applyMiddleware(thunk)
+));
+
+store.dispatch(checkAuth());
 // const SwitchNavigator = createSwitchNavigator({
 //     PanelBriefDataScreen: PanelBriefDataScreen, // This screen renders a navigator!
 //     PanelDetailDataScreen: PanelDetailDataScreen,
@@ -56,7 +78,11 @@ const AppContainer = createAppContainer(AuthenticationNavigator);
 
 class App extends React.Component {
     render() {
-        return <AppContainer />;
+        return (
+           <Provider store={store}>
+                <AppContainer/>
+            </Provider>
+         );
     }
 }
 

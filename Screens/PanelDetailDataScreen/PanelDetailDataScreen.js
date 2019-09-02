@@ -8,6 +8,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Table, Row, Rows } from 'react-native-table-component';
 import axios from 'axios';
 import MinerInfo from '../../Components/MinerInfo/MinerInfo';
+import * as actions from '../../Redux/actions/auth';
+import { connect } from 'react-redux';
 
 class PanelDetailDataScreen extends Component {
     static navigationOptions = {
@@ -33,10 +35,10 @@ class PanelDetailDataScreen extends Component {
     }
 
     componentDidMount() {
-       AsyncStorage.getItem('idValue').then((value) => {
-         this.setState({ 'idValue': value });
-         this.getMinerData(value);
-       });
+       // AsyncStorage.getItem('idValue').then((value) => {
+       //   this.setState({ 'idValue': value });
+       //   this.getMinerData(value);
+       // });
     }
 
     getMinerData = (idValue) => {
@@ -62,8 +64,8 @@ class PanelDetailDataScreen extends Component {
     render() {
         const state = this.state; 
         var dataShowing;
-        if(this.state.data.length > 0) {
-         dataShowing = this.state.data.map((item, index) => {
+        if(this.props.minerStatus.length > 0) {
+         dataShowing = this.props.minerStatus.map((item, index) => {
             var fanSpeeds = "";
             for(var i=0; i< item.fanSpeeds.length;i++) {
               fanSpeeds = fanSpeeds + item.fanSpeeds[i];
@@ -108,7 +110,24 @@ const styles = StyleSheet.create({
     textHead: {fontFamily: 'BYekan', textAlign: 'center', paddingLeft: 2, paddingRight: 2,},
 });
 
-export default PanelDetailDataScreen;
+// export default PanelDetailDataScreen;
+
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading,
+        isAuthenticate: state.auth.isAuthenticate,
+        minerStatus: state.auth.minerStatus,
+        error: state.auth.error
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getMinerStatus: (idValue) => dispatch( actions.getMinerStatus(idValue) ),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PanelDetailDataScreen);
 
 // <Table borderStyle={{borderWidth: 1, borderColor: '#c8e1ff'}}>
 //                     <Row data={state.tableHead} widthArr={state.widthArr} style={styles.head} textStyle={styles.textHead}/>

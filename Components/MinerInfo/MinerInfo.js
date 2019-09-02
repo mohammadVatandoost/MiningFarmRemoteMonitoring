@@ -9,27 +9,62 @@ import HorizontalLine from '../../Components/HorizontalLine/HorizontalLine';
 class MinerInfo extends Component {
 
     render() {
+        var upTime = this.props.upTime;
+        if(upTime.includes("d")) {
+          var res = upTime.split("d");
+          upTime = res[0] + " روز ";
+          console.log("upTime.split(d)");
+          console.log(res);
+          if(res[1].includes('h')) {
+             res = res[1].split("h");
+             upTime = upTime + res[0] + " ساعت " ;
+             if(res[1].includes('m')) {
+              res = res[1].split("m");
+              upTime = upTime + res[0] + " دقیقه " ;
+            }
+          }
+        }
+        var temperature;
+        // var temp1 = this.props.temp1.map((item)=>{
+        //    return (
+        //       <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont}}>{item}</Text>
+        //     );
+        // });
+        // var temp2 = this.props.temp2.map((item)=>{
+        //    return (
+        //       <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont}}>{item}</Text>
+        //     );
+        // });
+        // temperature = (<View style={{...FastDesign.flexRow, ...FastDesign.flexSpaceBetween,  ...FastDesign.alignSelfStretch, 
+        //         ...FastDesign.pl1, ...FastDesign.pr1}}>
+        //         <View style={{...FastDesign.flexColumn,  ...FastDesign.alignSelfStretch }}>
+        //            <Text style={{...FastDesign.h5, ...FastDesign.BYekanFont}}>دمای یک</Text>
+        //            <HorizontalLine width={1} color="#000" />
+        //            {temp1}
+        //         </View>
+        //         <View style={{...FastDesign.flexColumn,  ...FastDesign.alignSelfStretch }}>
+        //            <Text style={{...FastDesign.h5, ...FastDesign.BYekanFont}}>دمای یک</Text>
+        //            <HorizontalLine width={1} color="#000" />
+        //            {temp2}
+        //         </View>
+        //         </View>);
         return (
             <View style={{...FastDesign.flexColumn, ...FastDesign.alignCenter, ...styles.container, ...backgroundColor.white,
                 ...FastDesign.mt2, ...FastDesign.pt2, ...FastDesign.pb2}}>
                 <View style={{...FastDesign.flexRow, ...FastDesign.alignSelfStretch, ...FastDesign.flexSpaceBetween,
                  ...FastDesign.pl1, ...FastDesign.pr1}}>
-                   <Text style={{...FastDesign.h5, ...FastDesign.BYekanFont, ...FastDesign.textLeft}}>{this.props.minerName}</Text>
-                   <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont, ...FastDesign.textRight}}>{this.props.ip}</Text>
+                   <Text style={{...FastDesign.h5, ...FastDesign.textLeft}}>{this.props.minerName}</Text>
+                   <Text style={{...FastDesign.h6, ...FastDesign.textRight}}>{this.props.ip}</Text>
                 </View>
                  <HorizontalLine width={1} color="#000" />
                  <View style={{...FastDesign.flexRow, ...FastDesign.alignSelfStretch, ...FastDesign.flexSpaceBetween, 
                    ...FastDesign.pl1, ...FastDesign.pr1}}>
                    <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont}}>سرعت فن ها: {this.props.fanSpeeds}</Text>
-                   <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont}}> نرخ هش : {this.props.totalHashrate}</Text>
+                   <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont}}> نرخ هش : {this.props.totalHashrate} تراهش</Text>
                 </View>
                 <HorizontalLine width={1} color="#000" />
-                <View style={{...FastDesign.flexColumn,  ...FastDesign.alignSelfStretch, 
-                ...FastDesign.pl1, ...FastDesign.pr1}}>
-                   <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont}}>دمای یک: {this.props.temp1} </Text>
-                   <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont}}>دمای دو:  {this.props.temp2} </Text>
-                </View>
-                <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont, ...FastDesign.textCenter}}>{this.props.upTime} :زمان روشن بودن</Text>
+                {temperature}
+                <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont, ...FastDesign.textCenter}}> :زمان روشن بودن {upTime}</Text>
             </View>
         )
     }

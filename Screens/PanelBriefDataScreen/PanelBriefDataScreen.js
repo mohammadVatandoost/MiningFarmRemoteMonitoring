@@ -8,6 +8,8 @@ import {withNavigation, NavigationActions} from 'react-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import InfoCard from '../../Components/InfoCard/InfoCard';
 import axios from 'axios';
+import * as actions from '../../Redux/actions/auth';
+import { connect } from 'react-redux';
 
 class PanelBriefDataScreen extends Component {
     static navigationOptions = {
@@ -20,13 +22,13 @@ class PanelBriefDataScreen extends Component {
     state = {idValue: '', totalTrahash: 0, devicesNum: 0, activeDevices: 0, inActiveDevices: 0, data: []};
 
     componentDidMount() {
-      console.log("componentDidMount PanelBriefDataScreen");
-       AsyncStorage.getItem('idValue').then((value) => {
-        console.log("AsyncStorage PanelBriefDataScreen");
-        console.log(value);
-         this.setState({ 'idValue': value });
-         this.getMinerData(value);
-       });
+      // console.log("componentDidMount PanelBriefDataScreen");
+      //  AsyncStorage.getItem('idValue').then((value) => {
+      //   console.log("AsyncStorage PanelBriefDataScreen");
+      //   console.log(value);
+      //    this.setState({ 'idValue': value });
+      //    this.getMinerData(value);
+      //  });
     }
 
 
@@ -57,18 +59,48 @@ class PanelBriefDataScreen extends Component {
     }
 
     render() {
+        var briefData;
+        if(this.props.minerStatus.length > 0) {
+           var data = this.props.minerStatus;
+           var totalTrahash = 0; 
+              for(var i=0; i<data.length;i++) {
+                var temp = data[i].totalHashrate;
+                if (typeof temp === 'string') {temp = temp.replace(",", ""); }
+                 totalTrahash = totalTrahash + parseInt(temp);
+                 console.log("totalTrahash");console.log(totalTrahash);
+                 console.log(i+" totalTrahash");console.log(temp);
+              }
+          briefData = <View style={{...FastDesign.flexRow, ...FastDesign.alignSelfStretch, ...FastDesign.flexSpaceBetween, ...FastDesign.flewWrap,}}>
+                    <InfoCard title="مجموع تراهش ها" text={totalTrahash} />
+                    <InfoCard title="تعداد دستگاه ها" text={data.length} />
+                    <InfoCard title="دستگاه های فعال" text={data.length} />
+                    <InfoCard title="دستگاه های غیرفعال" text="0" />
+                </View>;
+        }
         return (
             <View style={{...FastDesign.flexOne, ...FastDesign.flexColumn, ...FastDesign.alignSelfStretch, ...FastDesign.pl2, ...FastDesign.pr2,
                 ...FastDesign.pt3, ...backgroundColor.grey}}>
-                <View style={{...FastDesign.flexRow, ...FastDesign.alignSelfStretch, ...FastDesign.flexSpaceBetween, ...FastDesign.flewWrap,}}>
-                    <InfoCard title="مجموع تراهش ها" text={this.state.totalTrahash} />
-                    <InfoCard title="تعداد دستگاه ها" text={this.state.devicesNum} />
-                    <InfoCard title="دستگاه های فعال" text={this.state.activeDevices} />
-                    <InfoCard title="دستگاه های غیرفعال" text={this.state.inActiveDevices} />
-                </View>
+                {briefData}
             </View>
         )
     }
 }
 
-export default PanelBriefDataScreen;
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading,
+        isAuthenticate: state.auth.isAuthenticate,
+        minerStatus: state.auth.minerStatus,
+        error: state.auth.error
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getMinerStatus: (idValue) => dispatch( actions.getMinerStatus(idValue) ),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PanelBriefDataScreen);
+
+// export default PanelBriefDataScreen;
