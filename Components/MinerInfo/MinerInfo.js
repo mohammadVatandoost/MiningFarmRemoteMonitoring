@@ -13,8 +13,8 @@ class MinerInfo extends Component {
         if(upTime.includes("d")) {
           var res = upTime.split("d");
           upTime = res[0] + " روز ";
-          console.log("upTime.split(d)");
-          console.log(res);
+          // console.log("upTime.split(d)");
+          // console.log(res);
           if(res[1].includes('h')) {
              res = res[1].split("h");
              upTime = upTime + res[0] + " ساعت " ;
@@ -25,29 +25,31 @@ class MinerInfo extends Component {
           }
         }
         var temperature;
-        // var temp1 = this.props.temp1.map((item)=>{
-        //    return (
-        //       <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont}}>{item}</Text>
-        //     );
-        // });
-        // var temp2 = this.props.temp2.map((item)=>{
-        //    return (
-        //       <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont}}>{item}</Text>
-        //     );
-        // });
-        // temperature = (<View style={{...FastDesign.flexRow, ...FastDesign.flexSpaceBetween,  ...FastDesign.alignSelfStretch, 
-        //         ...FastDesign.pl1, ...FastDesign.pr1}}>
-        //         <View style={{...FastDesign.flexColumn,  ...FastDesign.alignSelfStretch }}>
-        //            <Text style={{...FastDesign.h5, ...FastDesign.BYekanFont}}>دمای یک</Text>
-        //            <HorizontalLine width={1} color="#000" />
-        //            {temp1}
-        //         </View>
-        //         <View style={{...FastDesign.flexColumn,  ...FastDesign.alignSelfStretch }}>
-        //            <Text style={{...FastDesign.h5, ...FastDesign.BYekanFont}}>دمای یک</Text>
-        //            <HorizontalLine width={1} color="#000" />
-        //            {temp2}
-        //         </View>
-        //         </View>);
+        // console.log(this.props.temp1);
+        // console.log(this.props.temp2);
+        var temp1 = this.props.temp1.map((item)=>{
+           return (
+              <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont, ...FastDesign.textCenter}}>{item}</Text>
+            );
+        });
+        var temp2 = this.props.temp2.map((item)=>{
+           return (
+              <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont, ...FastDesign.textCenter}}>{item}</Text>
+            );
+        });
+        temperature = (<View style={{...FastDesign.flexRow, ...FastDesign.flexSpaceAround,  ...FastDesign.alignSelfStretch, 
+                ...FastDesign.pl1, ...FastDesign.pr1}}>
+                <View style={{...FastDesign.flexColumn,  ...FastDesign.alignSelfStretch }}>
+                   <Text style={{...FastDesign.h5, ...FastDesign.BYekanFont, ...FastDesign.textCenter}}>دماهای دو</Text>
+                   <HorizontalLine width={1} color="#000" />
+                   {temp1}
+                </View>
+                <View style={{...FastDesign.flexColumn,  ...FastDesign.alignSelfStretch }}>
+                   <Text style={{...FastDesign.h5, ...FastDesign.BYekanFont, ...FastDesign.textCenter}}>دماهای یک</Text>
+                   <HorizontalLine width={1} color="#000" />
+                   {temp2}
+                </View>
+                </View>);
         return (
             <View style={{...FastDesign.flexColumn, ...FastDesign.alignCenter, ...styles.container, ...backgroundColor.white,
                 ...FastDesign.mt2, ...FastDesign.pt2, ...FastDesign.pb2}}>
@@ -64,7 +66,7 @@ class MinerInfo extends Component {
                 </View>
                 <HorizontalLine width={1} color="#000" />
                 {temperature}
-                <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont, ...FastDesign.textCenter}}> :زمان روشن بودن {upTime}</Text>
+                <Text style={{...FastDesign.h6, ...FastDesign.BYekanFont, ...FastDesign.textCenter}}> زمان روشن بودن: {upTime}</Text>
             </View>
         )
     }

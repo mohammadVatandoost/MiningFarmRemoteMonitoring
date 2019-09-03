@@ -84,7 +84,7 @@ class PanelDetailDataScreen extends Component {
             }
 
             return (<MinerInfo key={index} minerName={item.minerName} ip={item.ip} fanSpeeds={fanSpeeds}
-            totalHashrate={item.totalHashrate} temp1={temp1} temp2={temp2} upTime={item.upTime} />)
+            totalHashrate={item.totalHashrate} temp1={item.temp1} temp2={item.temp2} upTime={item.upTime} />)
          });
         }
         return (
@@ -117,7 +117,7 @@ const mapStateToProps = state => {
         loading: state.auth.loading,
         isAuthenticate: state.auth.isAuthenticate,
         minerStatus: state.auth.minerStatus,
-        error: state.auth.error
+        error: state.auth.error,
     };
 };
 

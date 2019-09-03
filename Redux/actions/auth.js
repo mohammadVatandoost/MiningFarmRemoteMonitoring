@@ -32,12 +32,39 @@ export const getMinerStatus =  (value) => {
               dispatch( setAuth(true) );
               dispatch(setLoading(false));
               dispatch( setMinersStatus(response.data) );
+              dispatch( getPoolsData(value) );
            }
         }).catch((err)=> {
            console.log("api minerData err");
            console.log(err);
         });
     };
+}
+
+export const getPoolsData = (id) => {
+  return dispatch => {
+     axios.post('https://hashbazaar.com/api/get-pool-data',{id: value}).then((response)=>{
+           console.log("api pool data");
+           console.log(response);
+           if(parseInt(response.data.error) === 500) {
+              // dispatch( setError("شناسه شما اشتباه است."));
+              // dispatch(setLoading(false));
+           } else {
+              dispatch( setPoolData(response.data) );
+           }
+        }).catch((err)=> {
+           console.log("api minerData err");
+           console.log(err);
+        });
+      };
+    };
+}
+
+export const setPoolData = (poolData) => {
+     return {
+        type: actionTypes.Set_Pool_Data,
+        poolData: poolData         
+     }
 }
 
 export const setError = (error) => {

@@ -6,7 +6,8 @@ const initialState = {
     minerStatus: [],
     loading: false,
     error: '',
-    isAuthenticate: false
+    isAuthenticate: false,
+    poolData: [],
 };
 
 const setMinersStatus = (state, action) => {
@@ -22,10 +23,13 @@ const setLoading = (state, action) => {
 };
 
 const setAuthenticate = (state, action) => {
-    console.log("setAuthenticate reducer");
-    console.log(action.isAuthenticate);
     return updateObject(state, {isAuthenticate: action.isAuthenticate});
 };
+
+const setPoolData = (state, action) => {
+    return updateObject(state, {poolData: action.poolData});
+};
+
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
@@ -33,6 +37,7 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.Set_MinerStatus: return setMinersStatus(state, action);
         case actionTypes.Set_Loading: return setLoading(state, action);
         case actionTypes.Set_Auth: return setAuthenticate(state, action);
+        case actionTypes.Set_Pool_Data: return setPoolData(state, action);
         default:
             return state;
     }

@@ -18,6 +18,7 @@ import { Provider } from 'react-redux';
 import thunk from "redux-thunk";
 import auth from './Redux/reducers/auth';
 import {checkAuth} from './Redux/actions/auth';
+import OneSignal from 'react-native-onesignal';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -77,6 +78,45 @@ const AuthenticationNavigator = createStackNavigator({
 const AppContainer = createAppContainer(AuthenticationNavigator);
 
 class App extends React.Component {
+    
+    constructor(properties) {
+    super(properties);
+    OneSignal.init("f0f7b70b-a6cc-40e2-9b93-7f38a643f72a", {kOSSettingsKeyAutoPrompt : true});
+
+    OneSignal.addEventListener('received', this.onReceived);
+    OneSignal.addEventListener('opened', this.onOpened);
+    OneSignal.addEventListener('ids', this.onIds);
+    OneSignal.configure();  // triggers the ids event
+    console.log('OneSignal init ');
+  }
+
+  componentDidMount() {
+      // do stuff while splash screen is shown
+        // After having done stuff (such as async tasks) hide the splash screen
+        // SplashScreen.hide();
+    }
+
+  componentWillUnmount() {
+    OneSignal.removeEventListener('received', this.onReceived);
+    OneSignal.removeEventListener('opened', this.onOpened);
+    OneSignal.removeEventListener('ids', this.onIds);
+  }
+
+  onReceived(notification) {
+    console.log("Notification received: ", notification);
+  }
+
+  onOpened(openResult) {
+    console.log('Message: ', openResult.notification.payload.body);
+    console.log('Data: ', openResult.notification.payload.additionalData);
+    console.log('isActive: ', openResult.notification.isAppInFocus);
+    console.log('openResult: ', openResult);
+  }
+
+  onIds(device) {
+    console.log('Device info: ', device);
+  }
+
     render() {
         return (
            <Provider store={store}>

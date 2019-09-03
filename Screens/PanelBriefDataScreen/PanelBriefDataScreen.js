@@ -60,6 +60,14 @@ class PanelBriefDataScreen extends Component {
 
     render() {
         var briefData;
+        var poolData;
+        if(this.props.poolData.length > 0) {
+           poolData = this.props.poolData.map((item) => {
+            return (<View style={{...FastDesign.flexColumn}}>
+               <Text style={{...FastDesign.h5, ...FastDesign.textCenter, ...FastDesign.BYekanFont}}>{item.type.toUpperCase()}</Text>
+              </View>);
+           });
+        }
         if(this.props.minerStatus.length > 0) {
            var data = this.props.minerStatus;
            var totalTrahash = 0; 
@@ -81,6 +89,7 @@ class PanelBriefDataScreen extends Component {
             <View style={{...FastDesign.flexOne, ...FastDesign.flexColumn, ...FastDesign.alignSelfStretch, ...FastDesign.pl2, ...FastDesign.pr2,
                 ...FastDesign.pt3, ...backgroundColor.grey}}>
                 {briefData}
+                {poolData}
             </View>
         )
     }
@@ -91,7 +100,8 @@ const mapStateToProps = state => {
         loading: state.auth.loading,
         isAuthenticate: state.auth.isAuthenticate,
         minerStatus: state.auth.minerStatus,
-        error: state.auth.error
+        error: state.auth.error,
+        poolData: state.auth.poolData
     };
 };
 
