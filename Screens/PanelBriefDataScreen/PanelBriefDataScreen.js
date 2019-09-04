@@ -37,7 +37,7 @@ class PanelBriefDataScreen extends Component {
       // fetchData().then(() => {
       //   this.setState({refreshing: false});
       // });
-      this.props.refresh();
+      this.props.refresh(this.props.id);
     }
 
     getMinerData = (idValue) => {
@@ -53,10 +53,10 @@ class PanelBriefDataScreen extends Component {
                 var temp = data[i].totalHashrate;
                 if (typeof temp === 'string') {temp = temp.replace(",", ""); }
                  totalTrahash = totalTrahash + parseInt(temp);
-                 console.log("totalTrahash");console.log(totalTrahash);
-                 console.log(i+" totalTrahash");console.log(temp);
+                 // console.log("totalTrahash");console.log(totalTrahash);
+                 // console.log(i+" totalTrahash");console.log(temp);
               }
-              console.log("data");console.log(data);
+              // console.log("data");console.log(data);
               this.setState({totalTrahash: totalTrahash, devicesNum: data.length, 
                 activeDevices: data.length, inActiveDevices: 0, data: data});
            }
@@ -93,11 +93,12 @@ class PanelBriefDataScreen extends Component {
                     <InfoCard title="دستگاه های غیرفعال" text="0" />
                 </View>;
         }
+        
         return (
-        <ScrollView  refreshControl={<RefreshControl refreshing={this.props.loading} 
+        <ScrollView style={{...backgroundColor.grey}} refreshControl={<RefreshControl refreshing={this.props.loading} 
         onRefresh={this._onRefresh} />} >
             <View style={{...FastDesign.flexOne, ...FastDesign.flexColumn, ...FastDesign.alignSelfStretch, ...FastDesign.pl2, ...FastDesign.pr2,
-                ...FastDesign.pt3, ...backgroundColor.grey}}>
+                ...FastDesign.pt3, ...backgroundColor.grey,}}>
                 {briefData}
                 {poolData}
             </View>
@@ -112,7 +113,8 @@ const mapStateToProps = state => {
         isAuthenticate: state.auth.isAuthenticate,
         minerStatus: state.auth.minerStatus,
         error: state.auth.error,
-        poolData: state.auth.poolData
+        poolData: state.auth.poolData,
+        id: state.auth.id
     };
 };
 

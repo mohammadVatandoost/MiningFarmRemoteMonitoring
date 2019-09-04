@@ -8,10 +8,11 @@ const initialState = {
     error: '',
     isAuthenticate: false,
     poolData: [],
+    id: '',
 };
 
 const setMinersStatus = (state, action) => {
-    return updateObject(state, {minerStatus: action.minerStatus});
+    return updateObject(state, {minerStatus: action.minerStatus, id: action.id});
 };
 
 const setError = (state, action) => {

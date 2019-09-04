@@ -120,8 +120,13 @@ class AuthScreen extends Component {
           this.props.navigation.navigate('Panel');
         }
         // console.log("isAuthenticate");console.log(this.props.isAuthenticate);
+        // <Image style={{ flex: 1, height: 50, width: 150 }}
+                //       source={require("../../assets/images/FarmYar.png")}
+                //       resizeMode="contain" />
         return (
             <View style={{...FastDesign.flexColumn, ...FastDesign.alignCenter, ...FastDesign.pl4, ...FastDesign.pr4}}>
+                
+                      <Image style={{height: 80, width: 200, marginTop: 75, marginBottom: 75}} source={require('../../assets/images/FarmYar.png')} />
                 <Text style={{...FastDesign.textCenter, ...FastDesign.BYekanFont, ...FastDesign.h4 }}>ماینرهای خود را از راه دور مشاهد کنید.</Text>
                 {textError}
                 <TextInputCurved value={this.state.idValue} onChangeText={this.setText} placeholder="شناسه"/>

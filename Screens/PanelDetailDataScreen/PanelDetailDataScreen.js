@@ -61,6 +61,10 @@ class PanelDetailDataScreen extends Component {
         });
     }
 
+    _onRefresh = () => {
+      this.props.refresh(this.props.id);
+    }
+
     render() {
         const state = this.state; 
         var dataShowing;
@@ -88,6 +92,8 @@ class PanelDetailDataScreen extends Component {
          });
         }
         return (
+          <ScrollView style={{...backgroundColor.grey}} refreshControl={<RefreshControl refreshing={this.props.loading} 
+               onRefresh={this._onRefresh} />} >
             <View style={{...FastDesign.flexOne,...FastDesign.flexColumn, ...FastDesign.alignSelfStretch,
                  ...backgroundColor.grey}}>
                <View style={{marginTop: 40}}>
@@ -99,6 +105,7 @@ class PanelDetailDataScreen extends Component {
                 </ScrollView>
                </View>
             </View>
+          </ScrollView>
         )
     }
 }
@@ -118,12 +125,14 @@ const mapStateToProps = state => {
         isAuthenticate: state.auth.isAuthenticate,
         minerStatus: state.auth.minerStatus,
         error: state.auth.error,
+        id: state.auth.id
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         getMinerStatus: (idValue) => dispatch( actions.getMinerStatus(idValue) ),
+        refresh: (id) => dispatch( actions.refresh(id) )
     };
 };
 
