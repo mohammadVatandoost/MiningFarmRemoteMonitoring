@@ -35,7 +35,8 @@ class AuthScreen extends Component {
        if(this.state.idValue === '') {
          this.setState({error: 'لطفا شناسه خود را وارد کنید.'}); 
        } else {
-         this.props.getMinerStatus(this.state.idValue);
+         // this.props.getMinerStatus(this.state.idValue);
+         this.props.refresh(this.state.idValue);
        }
         
         // console.log("registerBtn");
@@ -118,7 +119,7 @@ class AuthScreen extends Component {
           console.log("isAuthenticate true");
           this.props.navigation.navigate('Panel');
         }
-        console.log("isAuthenticate");console.log(this.props.isAuthenticate);
+        // console.log("isAuthenticate");console.log(this.props.isAuthenticate);
         return (
             <View style={{...FastDesign.flexColumn, ...FastDesign.alignCenter, ...FastDesign.pl4, ...FastDesign.pr4}}>
                 <Text style={{...FastDesign.textCenter, ...FastDesign.BYekanFont, ...FastDesign.h4 }}>ماینرهای خود را از راه دور مشاهد کنید.</Text>
@@ -156,6 +157,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getMinerStatus: (idValue) => dispatch( actions.getMinerStatus(idValue) ),
+        refresh: (id) => dispatch( actions.refresh(id) )
     };
 };
 

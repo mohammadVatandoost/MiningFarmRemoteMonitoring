@@ -19,6 +19,8 @@ import thunk from "redux-thunk";
 import auth from './Redux/reducers/auth';
 import {checkAuth} from './Redux/actions/auth';
 import OneSignal from 'react-native-onesignal';
+import SplashScreen from 'react-native-splash-screen'
+
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -93,7 +95,7 @@ class App extends React.Component {
   componentDidMount() {
       // do stuff while splash screen is shown
         // After having done stuff (such as async tasks) hide the splash screen
-        // SplashScreen.hide();
+        SplashScreen.hide();
     }
 
   componentWillUnmount() {

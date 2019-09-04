@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
-    View, AsyncStorage,
-    Text,
+    View, AsyncStorage, ScrollView,
+    Text, RefreshControl,
 } from 'react-native';
 import {FastDesign, backgroundColor} from '../../Styles/Styles';
 import {withNavigation, NavigationActions} from 'react-navigation'
@@ -19,7 +19,8 @@ class PanelBriefDataScreen extends Component {
         },
     }
 
-    state = {idValue: '', totalTrahash: 0, devicesNum: 0, activeDevices: 0, inActiveDevices: 0, data: []};
+    state = {idValue: '', totalTrahash: 0, devicesNum: 0, activeDevices: 0, 
+    inActiveDevices: 0, data: [], refreshing: false};
 
     componentDidMount() {
       // console.log("componentDidMount PanelBriefDataScreen");
@@ -31,6 +32,13 @@ class PanelBriefDataScreen extends Component {
       //  });
     }
 
+    _onRefresh = () => {
+      // this.setState({refreshing: true});
+      // fetchData().then(() => {
+      //   this.setState({refreshing: false});
+      // });
+      this.props.refresh();
+    }
 
     getMinerData = (idValue) => {
         axios.post('https://hashbazaar.com/api/miner-data',{id: idValue}).then((response)=>{
@@ -86,11 +94,14 @@ class PanelBriefDataScreen extends Component {
                 </View>;
         }
         return (
+        <ScrollView  refreshControl={<RefreshControl refreshing={this.props.loading} 
+        onRefresh={this._onRefresh} />} >
             <View style={{...FastDesign.flexOne, ...FastDesign.flexColumn, ...FastDesign.alignSelfStretch, ...FastDesign.pl2, ...FastDesign.pr2,
                 ...FastDesign.pt3, ...backgroundColor.grey}}>
                 {briefData}
                 {poolData}
             </View>
+        </ScrollView>
         )
     }
 }
@@ -108,6 +119,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getMinerStatus: (idValue) => dispatch( actions.getMinerStatus(idValue) ),
+        refresh: (id) => dispatch( actions.refresh(id) )
     };
 };
 

@@ -10,17 +10,25 @@ export const checkAuth = () => {
         console.log(value);
         if(value !== null) {
             dispatch( getMinerStatus(value));
+            dispatch( getPoolsData(value) );
         } 
      });
    };
 };
+
+export const refresh = (id) => {
+  return dispatch => {
+    dispatch( getMinerStatus(id));
+    dispatch( getPoolsData(id) );
+  };
+}
 
 export const getMinerStatus =  (value) => {
     return dispatch => {
        console.log("action getMinerStatus");
        dispatch(setLoading(true));
        dispatch(setError(''));
-       axios.post('https://hashbazaar.com/api/miner-data',{id: value}).then((response)=>{
+       axios.post('http://hashbazaar.com/api/miner-data',{id: value}).then((response)=>{
            console.log("api minerData");
            console.log(response);
            dispatch(setLoading(false));
@@ -31,8 +39,7 @@ export const getMinerStatus =  (value) => {
               AsyncStorage.setItem('idValue', value);
               dispatch( setAuth(true) );
               dispatch(setLoading(false));
-              dispatch( setMinersStatus(response.data) );
-              dispatch( getPoolsData(value) );
+              dispatch( setMinersStatus(response.data) );    
            }
         }).catch((err)=> {
            console.log("api minerData err");
@@ -43,7 +50,7 @@ export const getMinerStatus =  (value) => {
 
 export const getPoolsData = (id) => {
   return dispatch => {
-     axios.post('https://hashbazaar.com/api/get-pool-data',{id: value}).then((response)=>{
+     axios.post('http://hashbazaar.com/api/get-pool-data',{id: id}).then((response)=>{
            console.log("api pool data");
            console.log(response);
            if(parseInt(response.data.error) === 500) {
@@ -57,7 +64,6 @@ export const getPoolsData = (id) => {
            console.log(err);
         });
       };
-    };
 }
 
 export const setPoolData = (poolData) => {
