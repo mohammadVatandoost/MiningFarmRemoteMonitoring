@@ -3,7 +3,7 @@ import {
     View, AsyncStorage, ScrollView,
     Text, RefreshControl,
 } from 'react-native';
-import {FastDesign, backgroundColor} from '../../Styles/Styles';
+import {FastDesign, backgroundColor, textColor} from '../../Styles/Styles';
 import {withNavigation, NavigationActions} from 'react-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import InfoCard from '../../Components/InfoCard/InfoCard';
@@ -12,6 +12,7 @@ import * as actions from '../../Redux/actions/auth';
 import { connect } from 'react-redux';
 
 class PanelBriefDataScreen extends Component {
+
     static navigationOptions = {
         tabBarLabel: "مختصر",
         tabBarIcon:  ({ focused, tintColor }) => {
@@ -69,11 +70,21 @@ class PanelBriefDataScreen extends Component {
     render() {
         var briefData;
         var poolData;
+        console.log('PanelBriefDataScreen');
+        console.log(this.props.poolData);
         if(this.props.poolData.length > 0) {
            poolData = this.props.poolData.map((item) => {
-            return (<View style={{...FastDesign.flexColumn}}>
-               <Text style={{...FastDesign.h5, ...FastDesign.textCenter, ...FastDesign.BYekanFont}}>{item.type.toUpperCase()}</Text>
-              </View>);
+            var title = item.type.toUpperCase();
+            var value_last_day = parseFloat(item.value_last_day).toFixed(6);
+            return ( <View style={{...FastDesign.flexColumn}}>
+               <Text style={{...FastDesign.h3, ...FastDesign.textCenter, ...FastDesign.mt2, ...FastDesign.mb1, ...textColor.white }}>{title}</Text>
+               <View style={{...FastDesign.flexRow, ...FastDesign.alignSelfStretch, ...FastDesign.flexSpaceBetween, ...FastDesign.flewWrap}}>
+                    <InfoCard title="24 ساعت" text={value_last_day + " BTC"} />
+                    <InfoCard title="واریز نشده" text={parseFloat(item.balance).toFixed(6) + " BTC"} />
+                    <InfoCard title="پرداخت شده" text={parseFloat(item.paid).toFixed(6) + " BTC"} />
+                    <InfoCard title="استخراج شده" text={parseFloat(item.value).toFixed(6) + " BTC"} />
+                </View>
+              </View> );
            });
         }
         if(this.props.minerStatus.length > 0) {
@@ -83,8 +94,8 @@ class PanelBriefDataScreen extends Component {
                 var temp = data[i].totalHashrate;
                 if (typeof temp === 'string') {temp = temp.replace(",", ""); }
                  totalTrahash = totalTrahash + parseInt(temp);
-                 console.log("totalTrahash");console.log(totalTrahash);
-                 console.log(i+" totalTrahash");console.log(temp);
+                 // console.log("totalTrahash");console.log(totalTrahash);
+                 // console.log(i+" totalTrahash");console.log(temp);
               }
           briefData = <View style={{...FastDesign.flexRow, ...FastDesign.alignSelfStretch, ...FastDesign.flexSpaceBetween, ...FastDesign.flewWrap,}}>
                     <InfoCard title="مجموع تراهش ها" text={totalTrahash} />
@@ -98,7 +109,7 @@ class PanelBriefDataScreen extends Component {
         <ScrollView style={{...backgroundColor.grey}} refreshControl={<RefreshControl refreshing={this.props.loading} 
         onRefresh={this._onRefresh} />} >
             <View style={{...FastDesign.flexOne, ...FastDesign.flexColumn, ...FastDesign.alignSelfStretch, ...FastDesign.pl2, ...FastDesign.pr2,
-                ...FastDesign.pt3, ...backgroundColor.grey,}}>
+                ...FastDesign.pt3, ...backgroundColor.grey}}>
                 {briefData}
                 {poolData}
             </View>
@@ -128,3 +139,6 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(PanelBriefDataScreen);
 
 // export default PanelBriefDataScreen;
+
+
+                    

@@ -39,7 +39,7 @@ export const getMinerStatus =  (value) => {
               AsyncStorage.setItem('idValue', value);
               dispatch( setAuth(true) );
               dispatch(setLoading(false));
-              dispatch( setMinersStatus(response.data, id) );    
+              dispatch( setMinersStatus(response.data, value) );    
            }
         }).catch((err)=> {
            console.log("api minerData err");
@@ -50,17 +50,21 @@ export const getMinerStatus =  (value) => {
 
 export const getPoolsData = (id) => {
   return dispatch => {
+    console.log("action getPoolsData");
      axios.post('https://hashbazaar.com/api/get-pool-data',{id: id}).then((response)=>{
            console.log("api pool data");
            console.log(response);
-           if(parseInt(response.data.error) === 500) {
+           if(parseInt(response.data.code) === 200) {
+            console.log("correct data");
               // dispatch( setError("شناسه شما اشتباه است."));
               // dispatch(setLoading(false));
+              dispatch( setPoolData(response.data.message) );
            } else {
-              dispatch( setPoolData(response.data) );
+            console.log("not correct data");
+              // dispatch( setPoolData(response.data) );
            }
         }).catch((err)=> {
-           console.log("api getPoolsData err");
+           console.log("api getPoolsData error ");
            console.log(err);
         });
       };

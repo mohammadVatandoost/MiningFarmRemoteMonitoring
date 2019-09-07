@@ -14,7 +14,7 @@ class InfoCard extends Component {
                 ...FastDesign.mt2, ...FastDesign.pt2, ...FastDesign.pb2}}>
                 <Text style={{...FastDesign.h4, ...FastDesign.BYekanFont, ...FastDesign.textCenter}}>{this.props.title}</Text>
                 <HorizontalLine width={1} color="#000" />
-                <Text style={{...FastDesign.h5, ...FastDesign.BYekanFont, ...FastDesign.textCenter}}>{this.props.text}</Text>
+                <Text style={{...FastDesign.h5,  ...FastDesign.textCenter}}>{this.props.text}</Text>
             </View>
         )
     }

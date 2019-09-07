@@ -10,8 +10,8 @@ import {withNavigation} from 'react-navigation'
 class HorizontalLine extends Component {
 
     jewelStyle = () => {
-        console.log('HorizontalLine');
-        console.log(this.props.color); console.log(this.props.width);
+        // console.log('HorizontalLine');
+        // console.log(this.props.color); console.log(this.props.width);
       return {
         borderBottomColor: `this.props.color`,
         borderBottomColor: `this.props.width`,

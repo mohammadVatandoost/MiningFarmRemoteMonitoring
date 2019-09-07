@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, AsyncStorage,
+    View, AsyncStorage, RefreshControl,
     Text,StyleSheet, ScrollView
 } from 'react-native';
 import {FastDesign, backgroundColor} from '../../Styles/Styles';
